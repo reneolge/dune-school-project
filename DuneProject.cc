@@ -5,12 +5,12 @@
 #include <dune/common/parallel/mpihelper.hh> // An initializer of MPI
 #include <dune/common/exceptions.hh> // We use exceptions
 
-int main(int argc, char** argv) //die Main Funktion ;)
+int main(int argc, char** argv)
 {
   try{
     //Maybe initialize Mpi
     Dune::MPIHelper& helper = Dune::MPIHelper::instance(argc, argv);
-    std::cout << "Hello World! This is Project." << std::endl;
+    std::cout << "Hello World! This is DuneProject." << std::endl;
     if(Dune::MPIHelper::isFake)
       std::cout<< "This is a sequential program." << std::endl;
     else
