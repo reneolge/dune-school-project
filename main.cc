@@ -121,7 +121,7 @@ for ( int step = 1; step <= wdh_exact; ++step )
 
   return gridExactSolution;
 }
-// main
+// mainfunktion
 // ----
 
 int main ( int argc, char **argv )
