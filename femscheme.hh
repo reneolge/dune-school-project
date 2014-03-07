@@ -72,7 +72,7 @@ private:
 
 /*******************************************************************************
  * template arguments are:
- * - GridPsrt: the part of the grid used to tesselate the 
+ * - GridPart: the part of the grid used to tesselate the 
  *             computational domain
  * - Model: description of the data functions and methods required for the
  *          elliptic operator (massFlux, diffusionFlux)
@@ -132,7 +132,7 @@ public:
     return solution_;
   }
 
-  //! sotup the right hand side
+  //! setup the right hand side
   void prepare() 
   { 
 

@@ -16,7 +16,7 @@ struct EllipticOperator
 : public virtual Dune::Fem::Operator< DiscreteFunction >
 {
   typedef DiscreteFunction DiscreteFunctionType;
-  typedef Model            ModelType;
+  typedef Model ModelType;
 
 protected:
   typedef typename DiscreteFunctionType::DiscreteFunctionSpaceType DiscreteFunctionSpaceType;
@@ -82,8 +82,8 @@ void EllipticOperator< DiscreteFunction, Model >
     const size_t numQuadraturePoints = quadrature.nop();
     for( size_t pt = 0; pt < numQuadraturePoints; ++pt )
     {
-	  typedef School::Filter< HostGridPartType > FilterType;
-      FilterType filter( hostGridPart );
+	  typedef School::Filter< GridPartType > FilterType;
+      FilterType filter( GridPartType );
   
 	  //switch between omega
 	  const bool enthalten = filter.contains(entity);
@@ -102,7 +102,7 @@ void EllipticOperator< DiscreteFunction, Model >
 		  model_.source(entity, x , u_x , newu_x );
 		  
 		  
-			DomainType y = x;
+			DomainType y = x, ret;
 			y /= x.two_norm();
 
 			JacobianRangeType Ju;
@@ -113,7 +113,7 @@ void EllipticOperator< DiscreteFunction, Model >
 		   	RangeType uVal;
 			u( y, uVal );
 			ret += uVal;
-		  }     // TODO ENDE IM FOLGENDEN ANGENOMMEN Hu IST HESSEMATRIX
+		       // TODO ENDE IM FOLGENDEN ANGENOMMEN Hu IST HESSEMATRIX
 		
 		
 		  RangeType IN(Ju[0,0]+100*Ju[1,1]);
@@ -152,28 +152,28 @@ void EllipticOperator< DiscreteFunction, Model >
 			Ju.mv( y, ret );
 			ret *= dimDomain - 1;
     
-		    HessianRangeType Hu;
-			hessian( y, Hu );
-			for( int i = 0; i < dimDomain; ++i )
-			{
-			  DomainType ds = y;
-			  ds *= -y[ i ];
-			  ds[ i ] += 1;
+		    //HessianRangeType Hu;
+			//hessian( y, Hu );
+			//for( int i = 0; i < dimDomain; ++i )
+			//{
+			  //DomainType ds = y;
+			  //ds *= -y[ i ];
+			  //ds[ i ] += 1;
 
-			  for( int j = 0; j < dimRange; ++j )
-			  {
-				DomainType Hds;
-				Hu[ j ].mv( ds, Hds );
-				ret[ j ] -= ds * Hds;
-			  }
-			}
+			  //for( int j = 0; j < dimRange; ++j )
+			  //{
+				//DomainType Hds;
+				//Hu[ j ].mv( ds, Hds );
+				//ret[ j ] -= ds * Hds;
+			  //}
+			//}
 			RangeType uVal;
 			u( y, uVal );
 			ret += uVal;
-		  }     // TODO ENDE IM FOLGENDEN ANGENOMMEN Hu IST HESSEMATRIX
+		       // TODO ENDE IM FOLGENDEN ANGENOMMEN Hu IST HESSEMATRIX
 		
 		
-		  RangeType IN( 39.047*Hu[0,0]-20.448*Hu[0,1]-20.448*H[1,0]+11.345*Hu[1,1]);
+		  RangeType IN( 39.047*Ju[0,0]-20.448*Ju[0,1]-20.448*Ju[1,0]+11.345*Ju[1,1]);
 		    
 		  // BRAUCHEN WIR NICHT, DA DIREKT IN CODE GESCHRIEBENmodel_.diffusiveFlux(entity, x , u_x , Du_x , newDu_x );
 		  

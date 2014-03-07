@@ -138,7 +138,7 @@ try
     Dune::Fem::Parameter::append( argv[ i ] );
 
   // append default parameter file  
-  Dune::Fem::Parameter::append( "../data/parameter" );
+  Dune::Fem::Parameter::append( "../data/parameter" );  // Lädt Parameterdatei (ein Ordner runter, in Data und dann parameter)
 
   // type of hierarchical grid 
   typedef Dune::GridSelector::GridType  HGridType ;
@@ -158,8 +158,8 @@ try
   // do initial load balance 
   grid.loadBalance();
 
-  // initial grid refinement
-  const int level = Dune::Fem::Parameter::getValue< int >( "poisson.level" );
+  // initial grid refinement "# level of initial global refinement "
+  const int level = Dune::Fem::Parameter::getValue< int >( "poisson.level" ); // Holt sich den Wert der in der Parameterdatei unter poisson.level ist und speichert ihn unter level 
 
   // number of global refinements to bisect grid width 
   const int refineStepsForHalf = Dune::DGFGridInfo< HGridType >::refineStepsForHalf();
@@ -168,7 +168,7 @@ try
   Dune::Fem::GlobalRefine::apply( grid, level * refineStepsForHalf );
 
   // setup EOC loop
-  const int repeats = Dune::Fem::Parameter::getValue< int >( "poisson.repeats", 0 );
+  const int repeats = Dune::Fem::Parameter::getValue< int >( "poisson.repeats", 0 ); // siehe oben (Zeile 162)
 
   GetExactSolution ( grid , 10 )
   
